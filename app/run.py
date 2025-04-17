@@ -37,11 +37,11 @@ def tokenize(text):
     return clean_tokens
 
 # Load data from SQLite database
-engine = create_engine('sqlite:///../data/DisasterResponse.db')
+engine = create_engine('sqlite:///data/DisasterResponse.db')
 df = pd.read_sql_table('messages', engine)  # Load the messages table into a dataframe
 
 # Load pre-trained model
-model = joblib.load("../models/classifier.pkl")
+model = joblib.load("models/classifier.pkl")
 
 @app.route('/')
 @app.route('/index')
