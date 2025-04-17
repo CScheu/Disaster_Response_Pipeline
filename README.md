@@ -53,12 +53,12 @@ The goal of this project is to build a robust system that can automatically cate
    
 ### 2. **Clean the Data**
 
-   python data_processing.py disaster_messages.csv disaster_categories.csv DisasterResponse.db
+   python data/data_processing.py disaster_messages.csv disaster_categories.csv DisasterResponse.db
    
 ### 3. **Train the Classifier**
 
-   python train_classifier.py ../data/DisasterResponse.db models/classifier.pkl
+   python models/train_classifier.py ../data/DisasterResponse.db models/classifier.pkl
    
 ### 4. **Start the Web Application**
 
-   python run.py
+   python app/run.py
