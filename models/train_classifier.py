@@ -74,24 +74,35 @@ def tokenize(text):
 
 def build_model():
     """
-    Build a machine learning pipeline for multi-output classification using Random Forest.
-    
+    Build a machine learning pipeline with GridSearchCV for hyperparameter tuning.
+
     The pipeline includes:
-    - CountVectorizer to convert text into tokens
-    - TfidfTransformer to convert word counts into TF-IDF features
-    - MultiOutputClassifier with RandomForestClassifier as the estimator
-    
+    - CountVectorizer to tokenize the text
+    - TfidfTransformer to apply TF-IDF
+    - MultiOutputClassifier with RandomForestClassifier
+    - GridSearchCV to find the best parameters
+
     Returns:
-    pipeline (sklearn.pipeline.Pipeline): The built machine learning pipeline.
+    cv (GridSearchCV): Grid search object with pipeline and parameter grid.
     """
-    # Define the machine learning pipeline
+    # Define pipeline
     pipeline = Pipeline([
-        ('vect', CountVectorizer(tokenizer=tokenize)),  # Tokenize using the custom tokenizer function
-        ('tfidf', TfidfTransformer()),  # Apply TF-IDF transformation
-        ('clf', MultiOutputClassifier(RandomForestClassifier()))  # Use RandomForestClassifier for multi-output classification
+        ('vect', CountVectorizer(tokenizer=tokenize)),
+        ('tfidf', TfidfTransformer()),
+        ('clf', MultiOutputClassifier(RandomForestClassifier()))
     ])
-    
-    return pipeline
+
+    # Define parameter grid for GridSearch
+    parameters = {
+        'clf__estimator__n_estimators': [50, 100],
+        'clf__estimator__min_samples_split': [2, 4],
+        'tfidf__use_idf': [True, False]
+    }
+
+    # Use GridSearchCV for hyperparameter tuning
+    cv = GridSearchCV(pipeline, param_grid=parameters, cv=5)
+
+    return cv
 
 
 def evaluate_model(model, X_test, Y_test, category_names):
